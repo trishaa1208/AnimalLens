@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AnimalLens | Animal Recognition</title>
+
+<!-- CSS -->
+<link
+    rel="stylesheet"
+    href="{{ url_for('serve_static', filename='style.css') }}"
+>
+
+</head>
+
+<body>
+
+
+<!-- ============================================================
+     NAVBAR
+     ============================================================ -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        🐾 AnimalLens
+    </div>
+
+    <div class="nav-subtitle">
+        AI Animal Recognition
+    </div>
+
+</nav>
+
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+
+<section class="hero">
+
+    <div class="hero-text">
+
+        <div class="badge">
+            🧠 CUSTOM DEEP LEARNING MODEL
+        </div>
+
+        <h1>
+            Discover the animal
+            <br>
+            behind your image.
+        </h1>
+
+        <p>
+            Upload an image and let our custom VGG7
+            convolutional neural network identify the animal.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     MODEL STATISTICS
+     ============================================================ -->
+
+<section class="stats-section">
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            🎯
+        </div>
+
+        <span>
+            Validation Accuracy
+        </span>
+
+        <strong>
+            83.99%
+        </strong>
+
+        <small>
+            Validation performance
+        </small>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            🐾
+        </div>
+
+        <span>
+            Animal Classes
+        </span>
+
+        <strong>
+            44
+        </strong>
+
+        <small>
+            Recognizable categories
+        </small>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            🧠
+        </div>
+
+        <span>
+            Architecture
+        </span>
+
+        <strong>
+            VGG7
+        </strong>
+
+        <small>
+            Custom CNN
+        </small>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            ⚡
+        </div>
+
+        <span>
+            Device
+        </span>
+
+        <strong>
+            CUDA
+        </strong>
+
+        <small>
+            NVIDIA GPU
+        </small>
+
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     PREDICTION AREA
+     ============================================================ -->
+
+<main class="prediction-container">
+
+    <section class="prediction-card">
+
+
+        <!-- SECTION TITLE -->
+
+        <div class="section-title">
+
+            <span>
+                🐾
+            </span>
+
+            <div>
+
+                <h2>
+                    Identify an Animal
+                </h2>
+
+                <p>
+                    Upload an image to start prediction.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ====================================================
+             UPLOAD AREA
+             ==================================================== -->
+
+        <div
+            class="upload-area"
+            id="uploadArea"
+        >
+
+            <div class="upload-icon">
+                📷
+            </div>
+
+            <h3>
+                Choose your animal image
+            </h3>
+
+            <p>
+                JPG, PNG, or WEBP
+            </p>
+
+
+            <input
+                type="file"
+                id="imageInput"
+                accept="image/jpeg,image/png,image/webp"
+                hidden
+            >
+
+
+            <button
+                type="button"
+                class="upload-button"
+                id="chooseImageBtn"
+            >
+                Choose Image
+            </button>
+
+        </div>
+
+
+        <!-- ====================================================
+             IMAGE PREVIEW
+             ==================================================== -->
+
+        <div
+            class="preview-container"
+            id="previewContainer"
+            style="display: none;"
+        >
+
+            <img
+                id="imagePreview"
+                src=""
+                alt="Selected animal"
+            >
+
+        </div>
+
+
+        <!-- SELECTED FILE -->
+
+        <p id="selectedAnimal">
+            No image selected
+        </p>
+
+
+        <!-- ====================================================
+             PREDICT BUTTON
+             ==================================================== -->
+
+        <button
+            type="button"
+            class="predict-button"
+            id="predictBtn"
+            disabled
+        >
+            🔍 Identify Animal
+        </button>
+
+
+        <!-- ====================================================
+             LOADING
+             ==================================================== -->
+
+        <div
+            class="loading"
+            id="loading"
+            style="display: none;"
+        >
+
+            <div class="spinner"></div>
+
+            <p>
+                AI is analyzing your image...
+            </p>
+
+        </div>
+
+
+        <!-- ====================================================
+             ERROR
+             ==================================================== -->
+
+        <div
+            class="error-message"
+            id="errorMessage"
+        ></div>
+
+
+        <!-- ====================================================
+             RESULTS
+             ==================================================== -->
+
+        <section
+            id="resultsSection"
+            style="display: none;"
+        >
+
+            <h2>
+                Prediction Results
+            </h2>
+
+            <p>
+                Top 3 predictions from the VGG7 model.
+            </p>
+
+            <div
+                id="predictionsContainer"
+            ></div>
+
+        </section>
+
+
+        <!-- ====================================================
+             DEFAULT RESULT
+             ==================================================== -->
+
+        <div
+            class="empty-result"
+            id="emptyResult"
+        >
+
+            <div class="big-animal">
+                🐾
+            </div>
+
+            <h3>
+                Ready to explore?
+            </h3>
+
+            <p>
+                Upload an image and your Top 3 predictions
+                will appear here.
+            </p>
+
+        </div>
+
+
+        <!-- ====================================================
+             RESET
+             ==================================================== -->
+
+        <button
+            type="button"
+            id="resetBtn"
+        >
+            Reset
+        </button>
+
+    </section>
+
+</main>
+
+
+<!-- ============================================================
+     ABOUT MODEL
+     ============================================================ -->
+
+<section class="about-section">
+
+    <div class="about-card">
+
+        <div class="about-title">
+            🧠 About the Model
+        </div>
+
+
+        <p>
+            This project uses a custom VGG7 convolutional
+            neural network built with PyTorch to classify
+            animal images into 44 categories.
+        </p>
+
+
+        <div class="model-details">
+
+
+            <div>
+
+                <span>
+                    Architecture
+                </span>
+
+                <strong>
+                    Custom VGG7 CNN
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Framework
+                </span>
+
+                <strong>
+                    PyTorch
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Validation Accuracy
+                </span>
+
+                <strong>
+                    83.99%
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Best Epoch
+                </span>
+
+                <strong>
+                    50
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Animal Classes
+                </span>
+
+                <strong>
+                    44
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Hardware
+                </span>
+
+                <strong>
+                    NVIDIA RTX PRO 4000 Blackwell
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    CUDA
+                </span>
+
+                <strong>
+                    12.8
+                </strong>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+
+<footer>
+
+    <p>
+        🐾 AnimalLens • Custom VGG7 Animal Image Recognition
+    </p>
+
+</footer>
+
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+
+<script
+    src="{{ url_for('serve_static', filename='script.js') }}"
+></script>
+
+</body>
+
+</html>

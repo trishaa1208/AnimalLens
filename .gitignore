@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# VS Code
+.vscode/
+
+# Environment / secrets
+.env
+.env.*
+
+# PyTorch models
+*.pth
+*.pt
+*.ckpt
+
+# Datasets
+mammals/
+mammals_clean/
+mammals_modify/
+
+# Generated results
+eda_results/
+evaluation_results/
+evaluation_weighted/
+outputs/
+results/
+checkpoints/
+
+# Temporary/local files
+*.log
+seal.jpg
+
+# OS files
+.DS_Store
+Thumbs.db
